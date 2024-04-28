@@ -8,8 +8,6 @@ export default async function NewModel() {
     const hello = await api.post.hello({ text: "from tRPC" });
     const session = await getServerAuthSession();
 
-    
-
     return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
@@ -44,9 +42,8 @@ export default async function NewModel() {
           </div>
 
           <button type="button" 
-                  onClick={() => {console.log("I am here!");}}
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-            Train the model
+                  Train the model
           </button>
 
       </div>
