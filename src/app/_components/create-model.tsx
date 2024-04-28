@@ -66,6 +66,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
 
       const filesOnly = files.map((file) => file.file);
       console.log(filesOnly);
+      console.log(filesOnly[0]?.name);
       createModel.mutate({ files: filesOnly});
 
       // const formData = new FormData();
@@ -118,7 +119,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
         {files.map((file, index) => (
           <div key={index} className="flex flex-col items-center">
             <span className="text-sm text-gray-600">{file.name}</span>
-            <img src={file.preview} alt={file.name} className="h-32 object-cover" />
+            <img src={file.preview} alt={file.file.name} className="h-32 object-cover" />
           </div>
         ))}
       </div>

@@ -7,7 +7,7 @@ import { TRPCError } from '@trpc/server';
 
 export const uploadRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ files: z.array(z.instanceof(File)).min(1) }))
+    .input(z.object({ files: z.array(z.any()).min(1) }))
     .mutation(async ({ ctx, input }) => {
       const files = input.files;
 
