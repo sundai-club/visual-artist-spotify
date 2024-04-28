@@ -1,4 +1,5 @@
 import { S3 } from 'aws-sdk';
+require('dotenv').config();
 
 // Configure AWS S3 with your credentials and bucket details
 const s3 = new S3({
@@ -10,7 +11,7 @@ const s3 = new S3({
 // This function handles the file upload to S3
 const uploadToS3 = async (file: File) => {
   const params: S3.PutObjectRequest = {
-    Bucket: process.env.AWS_BUCKET_NAME!, // Add '!' to assert that the value is not undefined
+    Bucket: process.env.S3_BUCKET_NAME!, // Add '!' to assert that the value is not undefined
     Key: `${Date.now()}_${file.name}`,
     Body: file,
     ContentType: file.type,
