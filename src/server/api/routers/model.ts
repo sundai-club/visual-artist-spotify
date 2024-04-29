@@ -101,7 +101,7 @@ export const modelRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       console.log("train model called");
       try {
-        const model = await replicate.models.create("daoluc", input.modelName, {
+        const model = await replicate.models.create("ltejedor", input.modelName, {
           visibility: "private",
           hardware: "cpu",
         });
@@ -113,7 +113,7 @@ export const modelRouter = createTRPCRouter({
           {
             // You need to create a model on Replicate that will be the destination for the trained version.
             // @ts-ignore
-            destination: "daoluc/" + input.modelName,
+            destination: "ltejedor/" + input.modelName,
             input: {
               input_images: input.inputUrl,
               token_string: "TOK",
