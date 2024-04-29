@@ -18,7 +18,7 @@ export default async function Home() {
 
         <p>Request your favorite artists</p>
 
-        <div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdae6G7grLyo7RGCioYyQE7uj4SNWwR_olsEAf1RVyx9OmD3w/viewform?embedded=true" width="640" height="682" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></div>
+        <div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdae6G7grLyo7RGCioYyQE7uj4SNWwR_olsEAf1RVyx9OmD3w/viewform?embedded=true" width="640" height="682" >Loading…</iframe></div>
 
       </div>
     </main>
