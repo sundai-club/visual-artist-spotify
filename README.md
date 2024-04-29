@@ -1,5 +1,7 @@
 # Visual Artist Interface for Generative Models
 
+**Part of [Sundai Club](https://sundai.club/)**
+
 Welcome to the Visual Artist Interface for Generative Models, a project designed to empower artists by enabling them to create, control, and monetize generative models based on their unique artistic styles.
 
 ## Overview
