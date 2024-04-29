@@ -78,9 +78,7 @@ export const modelRouter = createTRPCRouter({
 
         console.log(output);
 
-        return {
-          generatedImages: output,
-        };
+        return output;
       } catch (error) {
         if (error instanceof Error) {
           throw new trpc.TRPCError({
@@ -102,10 +100,9 @@ export const modelRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       console.log("train model called");
       try {
-        const model = await replicate.models.create("daoluc", input.modelName, 
-        {
-            visibility: "private",
-            hardware: "cpu",
+        const model = await replicate.models.create("daoluc", input.modelName, {
+          visibility: "private",
+          hardware: "cpu",
         });
         console.log(model);
         const output = await replicate.trainings.create(
@@ -127,9 +124,32 @@ export const modelRouter = createTRPCRouter({
 
         console.log(output);
 
-        return {
-          generatedImages: output,
-        };
+        return output;
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new trpc.TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: `An error occurred: ${error.message}`,
+          });
+        } else {
+          // Handle non-standard errors
+          throw new trpc.TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "An unknown error occurred",
+          });
+        }
+      }
+    }),
+
+  getTraining: protectedProcedure
+    .input(z.object({ trainingId: z.string() }))
+    .mutation(async ({ input }) => {
+      console.log("get training called");
+      try {
+        const training = await replicate.trainings.get(input.trainingId);
+        console.log(training);
+
+        return training;
       } catch (error) {
         if (error instanceof Error) {
           throw new trpc.TRPCError({
