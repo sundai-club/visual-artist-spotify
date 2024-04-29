@@ -1,29 +1,49 @@
-# Create T3 App
+# Visual Artist Interface for Generative Models
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Welcome to the Visual Artist Interface for Generative Models, a project designed to empower artists by enabling them to create, control, and monetize generative models based on their unique artistic styles.
 
-## What's next? How do I make an app with this?
+## Overview
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+This platform allows artists to upload their artwork and train custom models that replicate their style. These models can then be monetized and used in various applications such as digital art creation, design for merchandise, and more, while ensuring the protection of the artists' intellectual property.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Getting Started
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### Prerequisites
 
-## Learn More
+Before you begin, ensure you have the following installed:
+- Node.js
+- npm or Yarn
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Installation
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repository/visual-artist-spotify.git
+    ```
+2. Install dependencies:
+  ```
+  cd visual-artist-spotify
+  npm install
+  ```
+## Usage
+**Training a New Model**
+1. Navigate to the model creation page.
+2. Upload a ZIP file containing images that best represent your artistic style.
+3. Agree to the terms and decide if you want to publish your model on the marketplace.
+4. Click "Create a Model" to begin the training process.
+   
+For detailed instructions on how to train your model using Replicate, refer to this [standalone repository](https://github.com/sundai-club/fine_tuned_sd2_art_hack).
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+**Accessing Your Models**
+If you are a returning user, you can view all your trained models and access custom links to them on your dashboard.
 
-## How do I deploy this?
+## Features
+- **Model Training Interface:** A user-friendly interface to upload artwork and train generative models.
+- **Marketplace Integration:** Option to sell your models on an integrated marketplace platform.
+- **Intellectual Property Protection:** Ensures artists' control over how their styles are used.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Contributing
+We welcome contributions from the community, whether it's in the form of code, bug reports, feature requests, or documentation. Please use the GitHub issues/PRs system to contribute.
+
+## Acknowledgments
+Thanks to the T3 Stack for the initial project scaffolding and all Sundai Club contributors who have helped shape this project.
