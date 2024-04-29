@@ -12,6 +12,23 @@ const replicate = new Replicate({
 });
 
 export const modelRouter = createTRPCRouter({
+  finilize: protectedProcedure
+    .input(z.object({ 
+      upload_url: z.string().min(1),
+      model_version: z.string().min(1),
+      agreedMarketplace: z.boolean(),
+      agreedTerms: z.boolean(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      console.log('\n\n\nReceived files:', input.upload_url, input.agreedMarketplace, input.agreedTerms);
+
+      // Perform file upload logic here
+      // For example, you could save the files to a specific directory on the server
+      // or upload them to a cloud storage service like AWS S3, Google Cloud Storage, etc.
+
+      
+    }),
+
   hello: publicProcedure
     .input(z.object({ controlnet: z.string() }))
     .mutation(async ({ input }) => {
@@ -97,8 +114,13 @@ export const modelRouter = createTRPCRouter({
     }),
 
   trainModel: protectedProcedure
-    .input(z.object({ modelName: z.string(), inputUrl: z.string() }))
-    .mutation(async ({ input }) => {
+    .input(z.object({ 
+        modelName: z.string(),
+        inputUrl: z.string(),
+        agreedMarketplace: z.boolean(),
+        agreedTerms: z.boolean(),
+    }))
+    .mutation(async ({ ctx, input }) => {
       console.log("train model called");
       try {
         const model = await replicate.models.create("ltejedor", input.modelName, {
@@ -124,9 +146,19 @@ export const modelRouter = createTRPCRouter({
           },
         );
 
-        console.log(output);
+        console.log("Got results from the model: ", output);
 
-        return output;
+        return ctx.db.generativeModel.create({
+          data: {
+            name: input.modelName,
+            status: "pending",
+            agreedToTerms: input.agreedTerms,
+            agreeMarketplace: input.agreedMarketplace,
+            trainingData: input.inputUrl,
+            modelId: output.version,
+            createdBy: { connect: { id: ctx.session.user.id } },
+          },
+        });
       } catch (error) {
         if (error instanceof Error) {
           throw new trpc.TRPCError({

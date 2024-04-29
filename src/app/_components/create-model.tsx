@@ -15,6 +15,8 @@ type UploadFilesProps = {
 const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
   const router = useRouter();
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [agreedMarketplace, setAgreedMarketplace] = useState<boolean>(false);
+  const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
   const dropAreaRef = useRef<HTMLDivElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
@@ -49,7 +51,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
     }
   };
 
-  const createModel = api.upload_files.create.useMutation({
+  const createModel = api.model.trainModel.useMutation({
     onSuccess: () => {
       router.refresh();
     },
@@ -57,7 +59,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
 
   const handleSubmit = async () => {
     if (file) {
-      const formData = new FormData();
+      // const formData = new FormData();
       //formData.append('file', file);
       //formData.append('index', index);
 
@@ -70,13 +72,20 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
       );
 
       const newBlob = (await response.json()) as PutBlobResult;
-
       setBlob(newBlob);
+
+      createModel.mutate({ 
+        modelName: index + "_" + Date.now(),
+        inputUrl: newBlob.url,
+        agreedMarketplace: agreedMarketplace,
+        agreedTerms: agreedTerms
+      });
 
     }
   };
 
   return (
+
     <div className="flex flex-col items-center">
       <div
         ref={dropAreaRef}
@@ -104,17 +113,43 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
         </div>
       )}
 
-      {blob && (
-        <div>
-          Blob url: <a href={blob.url}>{blob.url}</a>
+
+      {/* Terms  Agreementn */}
+      <div className="flex py-2 max-w-md">
+        <div className="flex items-center h-5">
+            <input 
+              id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value=""
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) => setAgreedTerms(e.target.checked)}
+            />
         </div>
-      )}
+        <div className="ms-2 text-sm">
+            <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">I confirm that the uloaded images belong to me and I am a sole owner of them</label>
+            {/* <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300"> </p> */}
+        </div>
+      </div>
+
+      {/* Marketplace  Agreementn */}
+      <div className="flex py-2 max-w-md">
+        <div className="flex items-center h-5">
+            <input 
+              id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value=""
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) => setAgreedMarketplace(e.target.checked)}
+            />
+        </div>
+        <div className="ms-2 text-sm">
+            <label htmlFor="helper-checkbox" className="font-medium text-gray-900 dark:text-gray-300">Agree to publish my model on the Marketplace</label>
+            <p id="helper-checkbox-text" className="text-xs font-normal text-gray-500 dark:text-gray-300"> I consent for this model to be published on the Marketplace and be publically available for discovery through our website. If not selected - the model will be available only through a custom link. </p>
+        </div>
+      </div>
 
       <button
         className="mt-4 rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
         onClick={handleSubmit}
+        disabled={!agreedTerms}
       >
-        Upload Zip File
+        Create a Model
       </button>
 
     </div>
