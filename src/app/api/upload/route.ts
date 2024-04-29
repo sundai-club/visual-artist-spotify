@@ -5,6 +5,16 @@ export async function POST(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const filename = searchParams.get('filename');
 
+  if (filename === null) {
+    throw new Error("Filename parameter is missing");
+    // or provide a default filename if suitable
+    // filename = "default_filename";
+  }
+
+  if (request.body === null) {
+    throw new Error("Request body is missing");
+  }
+
   // ⚠️ The below code is for App Router Route Handlers only
   const blob = await put(filename, request.body, {
     access: 'public',

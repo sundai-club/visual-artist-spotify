@@ -57,6 +57,7 @@ export const modelRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       console.log("generate Image called");
       try {
+        // @ts-ignore
         const output = await replicate.run(input.modelId, {
           input: {
             image: input.imageUrl,
@@ -111,6 +112,7 @@ export const modelRouter = createTRPCRouter({
           "39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
           {
             // You need to create a model on Replicate that will be the destination for the trained version.
+            // @ts-ignore
             destination: "daoluc/" + input.modelName,
             input: {
               input_images: input.inputUrl,

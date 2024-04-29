@@ -16,7 +16,7 @@ const uploadToS3 = async (file: File) => {
     Body: file,
     ContentType: file.type,
   };
-
+}
 //   try {
 //     const s3Response = await s3.upload(params).promise();
 //     console.log('File uploaded successfully', s3Response);
@@ -29,8 +29,8 @@ const uploadToS3 = async (file: File) => {
 
 // The function to call on button click
 //export const onFileSubmission = async () => {
-export const onFileSubmission = async (files: string[]) => {
-  console.log('Uploading files ' + files[0]);
+//export const onFileSubmission = async (files: string[]) => {
+//  console.log('Uploading files ' + files[0]);
   // const uploadPromises = Array.from(files).map(uploadToS3);
 
   // try {
@@ -40,4 +40,4 @@ export const onFileSubmission = async (files: string[]) => {
   // } catch (err) {
   //   console.error('Error uploading one or more files', err);
   // }
-};
+//};

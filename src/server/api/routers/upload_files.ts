@@ -1,9 +1,6 @@
 // src/server/api/routers/upload.ts
 import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '~/server/api/trpc';
-import { onFileSubmission } from '~/server/api/on_images_submission'; // Ensure correct path
-import { TRPCError } from '@trpc/server';
-
 
 export const uploadRouter = createTRPCRouter({
   create: protectedProcedure
