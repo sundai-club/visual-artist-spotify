@@ -1,4 +1,5 @@
 import { postRouter } from "~/server/api/routers/post";
+import { uploadRouter } from "~/server/api/routers/upload_files";
 import { modelRouter } from "~/server/api/routers/model";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -9,6 +10,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  upload_files: uploadRouter,
   model: modelRouter,
 });
 
