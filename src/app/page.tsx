@@ -14,38 +14,12 @@ export default async function Home() {
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
           Use your favorite artists' work ethically
         </h1>
-        <h2 className="text-3xl">Generative Spotify for visual artists</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-            href="/new_model"
-            // target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Create a New Model →</h3>
-            <div className="text-lg">
-              Some Text
-            </div>
-          </Link>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
+        <h2 className="text-3xl">Coming Soon: Generative Spotify for visual artists</h2>
 
-          <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-center text-2xl text-white">
-              {session && <span>Logged in as {session.user?.name}</span>}
-            </p>
-            <Link
-              href={session ? "/api/auth/signout" : "/api/auth/signin"}
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-            >
-              {session ? "Sign out" : "Sign in"}
-            </Link>
-          </div>
-        </div>
+        <p>Request your favorite artists</p>
 
-        <CrudShowcase />
+        <div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdae6G7grLyo7RGCioYyQE7uj4SNWwR_olsEAf1RVyx9OmD3w/viewform?embedded=true" width="640" height="682" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></div>
+
       </div>
     </main>
   );
