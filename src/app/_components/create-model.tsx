@@ -3,6 +3,9 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
+import type { PutBlobResult } from '@vercel/blob';
+
+
 type FileWithPreview = { file: File, preview: string };
 
 type UploadFilesProps = {
@@ -11,8 +14,9 @@ type UploadFilesProps = {
 
 const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
   const router = useRouter();
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [file, setFile] = useState<File | undefined>(undefined);
   const dropAreaRef = useRef<HTMLDivElement>(null);
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -33,24 +37,15 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
     if (dropAreaRef.current) {
       dropAreaRef.current.classList.remove('bg-gray-200');
     }
-    if (e.dataTransfer.files) {
-      const droppedFiles = Array.from(e.dataTransfer.files);
-      const filesWithPreview = droppedFiles.map((file) => {
-        const preview = URL.createObjectURL(file);
-        return { file: file, preview: preview };
-      });
-      setFiles((prevFiles) => [...prevFiles, ...filesWithPreview]);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const zipFile = e.dataTransfer.files[0];
+      setFile(zipFile);
     }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const selectedFiles = Array.from(event.target.files);
-      const filesWithPreview = selectedFiles.map((file) => {
-        const preview = URL.createObjectURL(file);
-        return { file: file, preview: preview };
-      });
-      setFiles((prevFiles) => [...prevFiles, ...filesWithPreview]);
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
     }
   };
 
@@ -61,37 +56,25 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
   });
 
   const handleSubmit = async () => {
-    if (files.length > 0) {
-      // result = await api.uploadFiles.uploadFiles({ file: files[0] });
+    if (file) {
+      const formData = new FormData();
+      //formData.append('file', file);
+      //formData.append('index', index);
 
-      const filesOnly = files.map((file) => file.file);
-      console.log(filesOnly);
-      console.log(filesOnly[0]?.name);
-      createModel.mutate({ files: filesOnly});
+      const response = await fetch(
+        `/api/upload?filename=${file.name}`,
+        {
+          method: 'POST',
+          body: file,
+        },
+      );
 
-      // const formData = new FormData();
-      // files.forEach((file) => {
-      //   formData.append('files', file);
-      // });
-      // formData.append('index-name', index);
+      const newBlob = (await response.json()) as PutBlobResult;
 
-      // const response = await fetch('/api/setup', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
+      setBlob(newBlob);
 
-      // if (response.status === 200) {
-      //   console.log('Files uploaded successfully!');
-      // } else {
-      //   console.log('Error uploading files.');
-      // }
-
-      // files.forEach((file) => {
-      //   URL.revokeObjectURL(file.preview);
-      // });
     }
   };
-
 
   return (
     <div className="flex flex-col items-center">
@@ -115,20 +98,23 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ index }) => {
         </p>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-4">
-        {files.map((file, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <span className="text-sm text-gray-600">{file.name}</span>
-            <img src={file.preview} alt={file.file.name} className="h-32 object-cover" />
-          </div>
-        ))}
-      </div>
+      {file && (
+        <div className="mt-4">
+          <span className="text-sm">Ready to upload:</span> <span className="text-sm text-gray-600">{file.name}</span>
+        </div>
+      )}
+
+      {blob && (
+        <div>
+          Blob url: <a href={blob.url}>{blob.url}</a>
+        </div>
+      )}
 
       <button
         className="mt-4 rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
         onClick={handleSubmit}
       >
-        Upload Files
+        Upload Zip File
       </button>
 
     </div>

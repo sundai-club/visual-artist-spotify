@@ -30,7 +30,7 @@ export default async function NewModelPage() {
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
           Create a Generative Model in Your Own Style!
         </h1>
-          Please upload your vizual art here:
+          Upload a zip file with the images you'd like to train your model on
           <CreateModel index={session?.user.id}/>        
       </div>
     </main>
