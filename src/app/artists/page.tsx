@@ -14,8 +14,8 @@ export default async function NewModel() {
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
           Create a Generative Model in Your Own Style!
         </h1>
-
-        <CreateModelPreview />
+        
+        <CreateModelPreview session={session} />
       </div>
     </main>
   );
